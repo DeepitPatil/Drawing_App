@@ -7,23 +7,13 @@ class DrawingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        _name,
-        style: TextStyle(
-          fontSize: 30
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-      decoration: BoxDecoration(
-        border: new Border(
-            bottom: new BorderSide(
-              color: Colors.black,
-              width: 2.0,
-              style: BorderStyle.solid
-          )
-        ),
-      )
+    return Card(
+        shadowColor: Colors.black,
+        margin: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+        child: ListTile(
+          title: Text(_name),
+          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+    )
     );
   }
 }

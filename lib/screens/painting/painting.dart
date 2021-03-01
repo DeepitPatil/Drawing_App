@@ -13,7 +13,7 @@ class Painting extends StatefulWidget {
 }
 
 class _PaintingState extends State<Painting> {
-  List<Offset> _points = <Offset>[];
+  List<Offset> _points = Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points;
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +38,72 @@ class _PaintingState extends State<Painting> {
           ),
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
+      /*floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.clear),
         onPressed: () => _points.clear(),
-      ),
+      ),*/
+        floatingActionButton: Padding(padding: EdgeInsets.all(20.0),child: Stack(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton(
+                child: new Icon(Icons.save),
+                backgroundColor: Colors.green,
+                onPressed: () => saveDrawing(_points),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                child: new Icon(Icons.clear),
+                backgroundColor: Colors.red,
+                onPressed: () => _points.clear(),
+              ),
+            ),
+          ],
+        ),),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  saveDrawing(List<Offset> p) {
+    TextEditingController customController = TextEditingController(text: Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].name);
+
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text("Save Drawing as"),
+        content: TextField(
+          controller: customController,
+        ),
+        actions: [Stack(children: [
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: MaterialButton(
+              elevation: 5,
+              child: Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: MaterialButton(
+                elevation: 5,
+                child: Text("Save"),
+                onPressed: () {
+                  if(customController.text.toString().isNotEmpty){
+                    Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].name = customController.text.toString();
+                    Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points = p;
+                    Navigator.of(context).popUntil((route) => false);
+                    Navigator.pushNamed(context, '/');
+                  }
+                }
+            )
+          )
+        ],)]
+      );
+    });
   }
 }
 

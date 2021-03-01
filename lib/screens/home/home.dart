@@ -34,8 +34,7 @@ class _HomeState extends State<Home> {
         )).toList(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Text("+",
-        style: TextStyle(fontSize: 40), textAlign: TextAlign.center,),
+        child: new Icon(Icons.add),
         onPressed: () => addNewDrawing(),
       ),
     );
