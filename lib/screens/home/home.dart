@@ -23,6 +23,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +31,47 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Drawing App"),
       ),
-      body: ListView.separated(
-        itemCount: Home.drawings.length,
-        separatorBuilder: (context, index) => Divider(),
-        itemBuilder: (context, index) {
-          if (index == 0 || index == Home.drawings.length-1) {
-            return Container(); // zero height: not visible
-          }
-          final item = Home.drawings[index];
+      body: Column(
+        children: [
+          TextFormField(
+            cursorColor: Colors.black,
+            keyboardType: TextInputType.text,
+            controller: controller,
+            onChanged: (s) => updateSearch(controller.text.toString().toLowerCase()),
+            decoration: new InputDecoration(
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                contentPadding:
+                EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                hintText: "Search"),
+          ),
+          Expanded(
+              child: ListView.separated(
+                itemCount: Home.drawings.length,
+                separatorBuilder: (context, index) {
+                  if(index>0 && index < Home.drawings.length-1 && !Home.drawings[index].visibility)
+                    return Container();
+                  return Divider();
+                },
+                itemBuilder: (context, index) {
+                  if (index == 0 || index == Home.drawings.length-1) {
+                    return Container(); // zero height: not visible
+                  }
+                  final item = Home.drawings[index];
 
-          return DismissibleWidget(
-            item: item,
-            child: buildListTile(item),
-            onDismissed: (direction) =>
-                dismissItem(context, index, direction),
-          );
-        },
+                  return DismissibleWidget(
+                    item: item,
+                    child: buildListTile(item),
+                    onDismissed: (direction) =>
+                        dismissItem(context, index, direction),
+                  );
+                },
+              ),
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: new Icon(Icons.add),
@@ -74,14 +100,32 @@ class _HomeState extends State<Home> {
     }
   }
 
-  Widget buildListTile(Drawing item) => ListTile(
-    contentPadding: EdgeInsets.symmetric(
-      horizontal: 16,
-      vertical: 16,
-    ),
-    title: Text(item.name),
-    onTap: () => openPainter(context, item.ID),
+  Widget buildListTile(Drawing item) => Visibility(
+      visible: item.visibility,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
+        title: Text(item.name),
+        onTap: () => openPainter(context, item.ID),
+      )
   );
+
+  void updateSearch(String s) {
+    for(int i = 1; i < Home.drawings.length-1; i++){
+      if(Home.drawings[i].name.toLowerCase().contains(s)){
+        setState(() {
+          Home.drawings[i].visibility = true;
+        });
+      }
+      else {
+        setState(() {
+          Home.drawings[i].visibility = false;
+        });
+      }
+    }
+  }
   
   void addNewDrawing() {
     setState(() {
