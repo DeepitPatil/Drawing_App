@@ -4,10 +4,12 @@ import 'package:drawing_app/screens/home/drawing.dart';
 import 'package:drawing_app/screens/painting/dismissible_widget.dart';
 import 'package:drawing_app/screens/home/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class Home extends StatefulWidget {
 
-  static List<Drawing> drawings = [null, Drawing(0, "Drawing 1"), Drawing(1, "Drawing 2"), Drawing(2, "Drawing 3"), Drawing(3, "Drawing 4"), null];
+  static List<Drawing> drawings = [null, Drawing(0, "New Drawing", <Offset>[]), null];
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,6 +20,13 @@ class Home extends StatefulWidget {
         return(i);
     }
     return -1;
+  }
+
+  static saveData() async {
+    String text = Drawing.encode(drawings);
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/savedInfo.txt');
+    await file.writeAsString(text);
   }
 }
 
@@ -131,7 +140,7 @@ class _HomeState extends State<Home> {
     setState(() {
       int maxID = 0;
       if(Home.drawings.isEmpty)
-        Home.drawings.add(Drawing(0, "Drawing 1"));
+        Home.drawings.add(Drawing(0, "New Drawing", <Offset>[]));
       else {
         for(Drawing d in Home.drawings){
           if(d == null)
@@ -139,7 +148,7 @@ class _HomeState extends State<Home> {
           if(d.ID > maxID)
             maxID = d.ID;
         }
-        Home.drawings.insert(Home.drawings.length-1, Drawing(maxID+1, "Drawing "+(maxID+2).toString()));
+        Home.drawings.insert(Home.drawings.length-1, Drawing(maxID+1, "New Drawing "+(maxID+2).toString(), <Offset>[]));
       }
     });
   }

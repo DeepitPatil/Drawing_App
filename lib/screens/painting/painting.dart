@@ -1,7 +1,13 @@
+import 'dart:math';
+import 'dart:typed_data';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:drawing_app/screens/home/home.dart';
+import 'package:drawing_app/screens/home/drawing.dart';
+import 'dart:ui' as ui;
 
 class Painting extends StatefulWidget {
+  final Random rd = Random();
   static int id;
 
   Painting(int ID){
@@ -13,14 +19,18 @@ class Painting extends StatefulWidget {
 }
 
 class _PaintingState extends State<Painting> {
+  ByteData imgBytes;
   List<Offset> _points = Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      /*appBar: AppBar(
-        title: Text(Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].name),
-      ),*/
+      appBar: PreferredSize(
+        preferredSize: AppBar().preferredSize,
+        child: AppBar(
+          title: Text(Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].name),
+        ),
+      ),
       body: new Container(
         child: new GestureDetector(
           onPanUpdate: (DragUpdateDetails details) {
@@ -28,6 +38,7 @@ class _PaintingState extends State<Painting> {
               RenderBox object = context.findRenderObject();
               Offset _localPosition =
               object.globalToLocal(details.globalPosition);
+              _localPosition = _localPosition.translate(0.0, -(AppBar().preferredSize.height));
               _points = new List.from(_points)..add(_localPosition);
             });
           },
@@ -38,15 +49,12 @@ class _PaintingState extends State<Painting> {
           ),
         ),
       ),
-      /*floatingActionButton: new FloatingActionButton(
-        child: new Icon(Icons.clear),
-        onPressed: () => _points.clear(),
-      ),*/
         floatingActionButton: Padding(padding: EdgeInsets.all(20.0),child: Stack(
           children: <Widget>[
             Align(
               alignment: Alignment.bottomLeft,
               child: FloatingActionButton(
+                heroTag: "left",
                 child: new Icon(Icons.save),
                 backgroundColor: Colors.green,
                 onPressed: () => saveDrawing(_points),
@@ -55,6 +63,7 @@ class _PaintingState extends State<Painting> {
             Align(
               alignment: Alignment.bottomRight,
               child: FloatingActionButton(
+                heroTag: "right",
                 child: new Icon(Icons.clear),
                 backgroundColor: Colors.red,
                 onPressed: () => _points.clear(),
@@ -95,6 +104,9 @@ class _PaintingState extends State<Painting> {
                   if(customController.text.toString().isNotEmpty){
                     Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].name = customController.text.toString();
                     Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points = p;
+                    Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points_string = Drawing.encodeP(Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points);
+                    print(Home.drawings[Home.fetchDrawingIndexByID(Painting.id)].points_string);
+                    //Home.saveData();
                     Navigator.of(context).popUntil((route) => false);
                     Navigator.pushNamed(context, '/');
                   }
@@ -115,7 +127,7 @@ class Signature extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = new Paint()
-      ..color = Colors.blue
+      ..color = Colors.grey[600]
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 10.0;
 
