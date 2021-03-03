@@ -16,7 +16,7 @@ This app allows users to make and save drawings. This app has been made keeping 
 ## Add a new Drawing
 
 When the blue *FloatingActionButton* at the bottom right corner of the screen is clicked, the app automatically creates a new drawing with a default naming system. In the case below, a drawing with name **New Drawing 2** is created when the *FloatingActionButton* is clicked.
-<br/>
+<br/><br/>
 <img src="screenshots/home1.png" width="270" height="584"> <img src="screenshots/home2.png" width="270" height="584">
 <br/>
 <a name="edit-a-drawing"/>
