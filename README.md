@@ -17,7 +17,7 @@ This app allows users to make and save drawings. This app has been made keeping 
 
 When the blue *FloatingActionButton* at the bottom right corner of the screen is clicked, the app automatically creates a new drawing with a default naming system. In the case below, a drawing with name **New Drawing 2** is created when the *FloatingActionButton* is clicked.
 <br/><br/><br/>
-<img src="screenshots/home1.png" width="270" height="584"> <img src="screenshots/home2.png" width="270" height="584">
+<img src="screenshots/home1.png" width="270" height="584" align="left"> <img src="screenshots/home2.png" width="270" height="584" align="center">
 <br/><br/><br/><br/>
 <a name="edit-a-drawing"/>
 
@@ -25,7 +25,7 @@ When the blue *FloatingActionButton* at the bottom right corner of the screen is
 
 The default drawing color is set to *grey[600]*. The entire canvas can be cleared by clicking on the red *FloatingActionButton* at the bottom right corner of the screen. The the case below, the drawing **New Drawing 2** is being edited. The writing **Hello** is cleared after the *FloatingActionButton* is clicked. Then the word **World** is written.
 <br/><br/><br/>
-<img src="screenshots/home4.png" width="270" height="584"> <img src="screenshots/home3.png" width="270" height="584"> <img src="screenshots/home5.png" width="270" height="584">
+<img src="screenshots/home4.png" width="270" height="584" align="left"> <img src="screenshots/home3.png" width="270" height="584" align="center"> <img src="screenshots/home5.png" width="270" height="584" align="right">
 <br/><br/><br/><br/>
 <a name="save-a-drawing"/>
 ## Save a Drawing
