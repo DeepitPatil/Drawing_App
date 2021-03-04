@@ -36,7 +36,7 @@ A drawing can be saved by clicking on the green *FloatingActionButton* at the bo
 <br/><br/><br/>
 To check that the drawing has actually been saved, we can click on ~~New Drawing 2~~ **Hello World**. This file can be further edited and saved as needed.
 <br/><br/><br/>
-<img src="screenshots/home5.png" width="270" height="584"> <img src="screenshots/e1.png" width="270" height="584"> <img src="screenshots/e2.png" width="270" height="584">
+<img src="screenshots/e3.png" width="270" height="584"> <img src="screenshots/e1.png" width="270" height="584"> <img src="screenshots/e2.png" width="270" height="584">
 <br/><br/><br/><br/>
 <a name="searching-for-a-drawing"/>
 ## Searching for a Drawing
